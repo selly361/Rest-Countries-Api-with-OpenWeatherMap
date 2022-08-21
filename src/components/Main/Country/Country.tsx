@@ -28,45 +28,74 @@ const Container = styled.div`
   flex-direction: column;
   width: 300px;
   height: 350px;
-  background-color: ${({theme}) => theme.element.background};
-  color: ${({theme}) => theme.element.text};
+  min-height: 350px;
+  background-color: ${({ theme }) => theme.element.background};
+  color: ${({ theme }) => theme.element.text};
   justify-content: space-between;
   box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.3);
 `;
 
 const FlagContainer = styled.div`
+  width: 100%;
+  height: 45%;
+  img {
     width: 100%;
-    height: 50%;
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const Description = styled.div`
+  padding: 1rem;
+  width: 100%;
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-around;
+
+  span {
+    display: flex;
+    font-weight: 900;
+    gap: 0.3rem;
+    p {
+      font-weight: initial;
     }
-`
+  }
 
 
 
-const Country = ({ flag, officialName, population, region, capital }: PropTypes) => {
+  @media (max-width: ) {
+  }
+`;
+
+const Country = ({
+  flag,
+  officialName,
+  population,
+  region,
+  capital,
+}: PropTypes) => {
   return (
     <Container>
       <FlagContainer>
         <img src={flag} />
       </FlagContainer>
-    <div>
-    <h2>{officialName}</h2>
-      <span>
-        Population:
-        <p>{numFormatter(population)}</p>
-      </span>
-      <span>
-        Region:
-        <p>{region}</p>
-      </span>
-      <span>
-        Capital:
-        <p>{capital}</p>
-      </span>
-    </div>
+      <Description>
+        <h2>{officialName}</h2>
+        <span>
+          Population:
+          <p>{numFormatter(population)}</p>
+        </span>
+        <span>
+          Region:
+          <p>{region}</p>
+        </span>
+        <span>
+          Capital:
+          <p>{capital}</p>
+        </span>
+      </Description>
     </Container>
   );
 };

@@ -35,7 +35,7 @@ const InputContainer = styled.div`
   }
 
 
-  @media (max-width: 600px) {
+  @media (max-width: 660px) {
     & {
       width: 95vw;
       margin: auto;
