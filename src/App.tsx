@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, useState } from "react";
+import styled, { ThemeProvider } from "styled-components";
+import NavBar from "./components/NavBar/NavBar";
+import Main from "./components/Main/Main";
+import { lightTheme, darkTheme } from "./utils/theme";
+import { GlobalStyles } from "./utils/GlobalStyles";
+
+const Body = styled.div`
+  width: 100vw;
+  min-height: 100vh;
+  background-color: ${({ theme }) => theme.body.background};
+  color: ${({ theme }) => theme.body.text};
+`;
 
 function App() {
+  const [themeToUse, setThemeToUse] = useState<string | null | undefined>();
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <ThemeProvider theme={themeToUse === "dark" ? darkTheme : lightTheme}>
+        <GlobalStyles />
+        <Body>
+          <NavBar themeToUse={themeToUse} setThemeToUse={setThemeToUse} />
+          <Main />
+        </Body>
+      </ThemeProvider>
+    </Fragment>
   );
 }
 
