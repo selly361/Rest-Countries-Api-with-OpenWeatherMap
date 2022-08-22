@@ -1,11 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import { BsMoonFill, BsSun } from "react-icons/bs";
+import { Outlet, Link } from "react-router-dom";
+
 
 const Header = styled.header`
   background-color: ${({ theme }) => theme.header.background};
   width: 100vw;
-  height: 15vh;
+  height: 80px;
   position: fixed;
   display: flex;
   padding: 0 1rem;
@@ -13,6 +15,8 @@ const Header = styled.header`
   align-items: center;
   color: ${({ theme }) => theme.header.text};
   box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
+  z-index: 4;
+  cursor: pointer;
 
   h2 {
     font-size: 2rem;
@@ -25,12 +29,12 @@ const Header = styled.header`
   }
 `;
 
-const ThemeButton = styled.div`
+const ThemeButton = styled.button`
   display: flex;
   gap: 0.5rem;
-  cursor: pointer;
   align-items: center;
   font-size: 1.1rem;
+  cursor: pointer;
 
   .dark-icon,
   .light-icon {
@@ -43,6 +47,13 @@ const ThemeButton = styled.div`
       gap: 0.2rem;
     }
   }
+`;
+
+const Navigator = styled.nav`
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 interface PropTypes {
@@ -63,37 +74,42 @@ const NavBar = ({ themeToUse, setThemeToUse }: PropTypes) => {
     }
   }, [themeToUse]);
 
- 
-
-const gap = (<><br /> <br /> <br /> <br /> <br /> <br /> <br /></>)
+  const gap = (
+    <>
+      <br /> <br /> <br /> <br /> <br /> <br /> <br />
+    </>
+  );
 
   return (
     <Fragment>
       <Header>
-        <h2>Where in the world?</h2>
-        {themeToUse === "dark" ? (
-          <ThemeButton
-            onClick={() => {
-              localStorage.setItem("theme", "light");
-              setThemeToUse("light");
-            }}
-          >
-            <BsSun className="light-icon" />
-            Light Mode
-          </ThemeButton>
-        ) : (
-          <ThemeButton
-            onClick={() => {
-              localStorage.setItem("theme", "dark");
-              setThemeToUse("dark");
-            }}
-          >
-            <BsMoonFill className="dark-icon" />
-            Dark Mode
-          </ThemeButton>
-        )}
+        <Navigator>
+          <Link to='/'><h2>Where in the world?</h2></Link>
+          {themeToUse === "dark" ? (
+            <ThemeButton
+              onClick={() => {
+                localStorage.setItem("theme", "light");
+                setThemeToUse("light");
+              }}
+            >
+              <BsSun className="light-icon" />
+              Light Mode
+            </ThemeButton>
+          ) : (
+            <ThemeButton
+              onClick={() => {
+                localStorage.setItem("theme", "dark");
+                setThemeToUse("dark");
+              }}
+            >
+              <BsMoonFill className="dark-icon" />
+              Dark Mode
+            </ThemeButton>
+          )}
+        </Navigator>
       </Header>
       {gap}
+      <Outlet />
     </Fragment>
   );
 };

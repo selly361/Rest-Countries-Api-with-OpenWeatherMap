@@ -11,7 +11,7 @@ const Container = styled.main`
 `;
 
 const InputContainer = styled.div`
-  width: 453px;
+  width: 500px;
   display: flex;
   height: 50px;
   align-items: center;
@@ -21,8 +21,6 @@ const InputContainer = styled.div`
   padding-left: 0.2rem;
   position: relative;
 
-
-
   .search-icon {
     position: absolute;
     left: 0.4rem;
@@ -30,20 +28,22 @@ const InputContainer = styled.div`
 
   .x {
     padding-right: 0.4rem;
-    cursor: pointer;
     color: red;
+
+  
   }
 
 
-  @media (max-width: 660px) {
+  @media (max-width: 512px){
     & {
-      width: 95vw;
-      margin: auto;
+      width: 100%;
+
     }
   }
+
 `;
 const Input = styled.input`
-  width: 400px;
+  width: 460px;
   border: 1px white;
   font-size: 1.2rem;
   height: 100%;
@@ -51,52 +51,67 @@ const Input = styled.input`
 `;
 
 const SearhAndFilterContainer = styled.div`
-  width: 97vw;
+  width: 89vw;
   height: 100px;
   margin: auto;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+
+  .dropdown-list {
+    background-color: ${({theme}) => theme.header.background};
+    color: ${({theme}) => theme.header.text};
+    padding: .3rem;
+    font-size: 1.3rem;
+  }
+
+
+  @media (max-width: 888px){
+    & {
+      flex-flow: column;
+      margin-bottom: 2rem;
+      align-items: start;
+
+    }
+  }
 `;
 
 function Main() {
   const [inputValue, setInputValue] = useState("");
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState<number | null>(null);
+  const [selectedOption, setSelectedOption] = useState('');
+
+
+  
 
   useEffect(() => {
-    const reqAllCountries =  async () => {
+
+    (async () => {
+      let url = "https://restcountries.com/v3.1/all"
+  
+  
+      inputValue.trim() ? url = "https://restcountries.com/v3.1/name/" + inputValue : url = "https://restcountries.com/v3.1/all"
+  
       try {
-        const { data } = await axios("https://restcountries.com/v3.1/all");
+        const { data } = await axios(url);
         setCountries(data);
-        console.log(data);
       } catch (err: any) {
         setError(err);
       }
-    }
-
-
-    const countryReq = async () => {
-      try {
-        const { data } = await axios(
-          "https://restcountries.com/v3.1/name/" + inputValue
-        );
-        setCountries(data);
-        console.log(countries);
-      } catch (error: any) {
-        setError(error);
-      }
-    };
-
-    if (inputValue.trim()) {
-      countryReq();
-    }
-
-   else if(!inputValue.trim()){
-      reqAllCountries();
-    }
-    
-    console.log(countries)
+  
+    })()
   }, [inputValue]);
+
+
+
+  const filterOptions = [
+    { value: "Africa", label: "Africa" },
+    { value: "Asia", label: "Asia" },
+    { value: "Oceania", label: "Oceania" },
+    { value: "Europe", label: "Europe" },
+    { value: "America", label: "America" },
+  ];
 
 
 
@@ -112,9 +127,16 @@ function Main() {
             onChange={(e) => setInputValue(e.target.value)}
           />
           {inputValue.trim() && (
-            <BsX onClick={() => setInputValue("")} size={33} className="x" />
+            <BsX onClick={() => setInputValue("")} size={40} className="x" />
           )}
-        </InputContainer>
+        </InputContainer >
+          <select  className="dropdown-list" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+          <option>Filter using Continents</option>
+          {  filterOptions.map(option => {
+            return(
+               <option value={option.value} key={option.value}>{option.label}</option>
+            )})}
+          </select>
       </SearhAndFilterContainer>
       <CountryWrapper countries={countries} />
     </Container>

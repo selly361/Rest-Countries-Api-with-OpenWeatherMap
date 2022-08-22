@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Link } from 'react-router-dom'
 
 function numFormatter(number: number) {
   let numbers: string[] | string = ("" + number)
@@ -15,15 +17,9 @@ function numFormatter(number: number) {
     .join("");
 }
 
-interface PropTypes {
-  officialName: any;
-  flag: string;
-  population: number;
-  region: string;
-  capital: string;
-}
 
-const Container = styled.div`
+
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -33,6 +29,7 @@ const Container = styled.div`
   color: ${({ theme }) => theme.element.text};
   justify-content: space-between;
   box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 `;
 
 const FlagContainer = styled.div`
@@ -65,9 +62,16 @@ const Description = styled.div`
 
 
 
-  @media (max-width: ) {
-  }
 `;
+
+interface PropTypes {
+  officialName: any;
+  flag: string;
+  population: number;
+  region: string;
+  capital: string;
+  code: string
+}
 
 const Country = ({
   flag,
@@ -75,9 +79,11 @@ const Country = ({
   population,
   region,
   capital,
+  code
 }: PropTypes) => {
   return (
-    <Container>
+    <Link to={code}>
+    <Container whileHover={{ scale: 0.85 }}>
       <FlagContainer>
         <img src={flag} />
       </FlagContainer>
@@ -97,6 +103,7 @@ const Country = ({
         </span>
       </Description>
     </Container>
+    </Link>
   );
 };
 
