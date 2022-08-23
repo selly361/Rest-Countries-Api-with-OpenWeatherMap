@@ -110,7 +110,7 @@ function Main() {
     { value: "Asia", label: "Asia" },
     { value: "Oceania", label: "Oceania" },
     { value: "Europe", label: "Europe" },
-    { value: "America", label: "America" },
+    { value: "Americas", label: "America" },
   ];
 
 
