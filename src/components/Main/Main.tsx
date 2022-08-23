@@ -29,18 +29,13 @@ const InputContainer = styled.div`
   .x {
     padding-right: 0.4rem;
     color: red;
-
-  
   }
 
-
-  @media (max-width: 512px){
+  @media (max-width: 512px) {
     & {
       width: 100%;
-
     }
   }
-
 `;
 const Input = styled.input`
   width: 460px;
@@ -59,19 +54,17 @@ const SearhAndFilterContainer = styled.div`
   align-items: center;
 
   .dropdown-list {
-    background-color: ${({theme}) => theme.header.background};
-    color: ${({theme}) => theme.header.text};
-    padding: .3rem;
+    background-color: ${({ theme }) => theme.header.background};
+    color: ${({ theme }) => theme.header.text};
+    padding: 0.3rem;
     font-size: 1.3rem;
   }
 
-
-  @media (max-width: 888px){
+  @media (max-width: 888px) {
     & {
       flex-flow: column;
       margin-bottom: 2rem;
       align-items: start;
-
     }
   }
 `;
@@ -80,30 +73,26 @@ function Main() {
   const [inputValue, setInputValue] = useState("");
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState<number | null>(null);
-  const [selectedOption, setSelectedOption] = useState('');
-
-
-  
+  const [selectedOption, setSelectedOption] = useState("");
 
   useEffect(() => {
-
     (async () => {
-      let url = "https://restcountries.com/v3.1/all"
-  
-  
-      inputValue.trim() ? url = "https://restcountries.com/v3.1/name/" + inputValue : url = "https://restcountries.com/v3.1/all"
-  
+      let url = "https://restcountries.com/v3.1/all";
+
+      !inputValue.trim()
+        ? (url = "https://restcountries.com/v3.1/all")
+        : url.trim()
+        ? (url = "https://restcountries.com/v3.1/name/" + inputValue)
+        : (url = "https://restcountries.com/v3.1/all");
+
       try {
         const { data } = await axios(url);
         setCountries(data);
       } catch (err: any) {
         setError(err);
       }
-  
-    })()
+    })();
   }, [inputValue]);
-
-
 
   const filterOptions = [
     { value: "Africa", label: "Africa" },
@@ -112,8 +101,6 @@ function Main() {
     { value: "Europe", label: "Europe" },
     { value: "Americas", label: "America" },
   ];
-
-
 
   return (
     <Container>
@@ -129,14 +116,21 @@ function Main() {
           {inputValue.trim() && (
             <BsX onClick={() => setInputValue("")} size={40} className="x" />
           )}
-        </InputContainer >
-          <select  className="dropdown-list" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+        </InputContainer>
+        <select
+          className="dropdown-list"
+          value={selectedOption}
+          onChange={(e) => setSelectedOption(e.target.value)}
+        >
           <option>Filter using Continents</option>
-          {  filterOptions.map(option => {
-            return(
-               <option value={option.value} key={option.value}>{option.label}</option>
-            )})}
-          </select>
+          {filterOptions.map((option) => {
+            return (
+              <option value={option.value} key={option.value}>
+                {option.label}
+              </option>
+            );
+          })}
+        </select>
       </SearhAndFilterContainer>
       <CountryWrapper countries={countries} />
     </Container>
