@@ -14,7 +14,7 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 body {
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Nunito Sans', sans-serif, monospace;
     overflow-x: hidden;
 }
 `;
