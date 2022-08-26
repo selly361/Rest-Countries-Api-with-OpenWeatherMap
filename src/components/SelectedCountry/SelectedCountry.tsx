@@ -41,6 +41,10 @@ const MiddleSection = styled.section`
   margin: auto;
   align-items: center;
   gap: 3rem;
+
+  @media (max-width: 883px){
+    flex-flow: column;
+  }
 `;
 
 const Flag = styled.div`
@@ -61,6 +65,26 @@ const CountryInformation = styled.div`
   flex-flow: column;
   min-height: 80%;
   justify-content: space-evenly;
+
+
+
+  .information-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    & > div:first-child {
+      display: flex;
+      flex-flow: column;
+      gap: 0.4rem;
+    }
+
+    & > div:nth-child(2) {
+      display: flex;
+      flex-flow: column;
+      gap: 0.4rem;
+    }
+  }
 `;
 
 const SelectedCountry = () => {
@@ -90,7 +114,7 @@ const SelectedCountry = () => {
         {country.length &&
           country.map((country: any) => {
             return (
-              <Fragment>
+              <Fragment key={country.name.common}>
                 <Flag>
                   <img
                     src={country.flags.svg}
@@ -99,22 +123,44 @@ const SelectedCountry = () => {
                 </Flag>
                 <CountryInformation>
                   <h1>{country.name.official}</h1>
-                  <div>
+                  <div className="information-content">
                     <div>
                       <span>
-                        <strong>Native Name:</strong>{" "}
-                          {
-                            Object.values<any>(country.name.nativeName)[0]
-                              .official
-                          }
+                        <strong>Native Name: </strong>
+                        {
+                          Object.values<any>(country.name.nativeName)[0]
+                            .official
+                        }
                       </span>
-                      <br />
                       <span>
                         <strong>Population: </strong>
                         {country.population.toLocaleString()}
                       </span>
+                      <span>
+                        <strong>Region: </strong> {country.region}
+                      </span>
+                      <span>
+                        <strong>Sub Region: </strong> {country.subregion}
+                      </span>
+                      <span>
+                        <strong>Capital: </strong> {country.capital}
+                      </span>
                     </div>
-                    <div></div>
+                    <div>
+                      <span>
+                        <strong>Top Level Domain: </strong> {country.tld}
+                      </span>
+                      <span>
+                        <strong>Currency: </strong>
+                        {
+                          Object.values<any>(country.currencies)[0]
+                            .name
+                        }
+                      </span>
+                      <span>
+                        <strong>Languages: </strong> {Object.values(country.languages).join(", ")}
+                      </span>
+                    </div>
                   </div>
                 </CountryInformation>
               </Fragment>

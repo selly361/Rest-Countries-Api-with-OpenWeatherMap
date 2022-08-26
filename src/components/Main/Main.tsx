@@ -73,7 +73,7 @@ function Main() {
   const [inputValue, setInputValue] = useState("");
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState<number | null>(null);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("All");
 
   useEffect(() => {
     (async () => {
@@ -90,16 +90,39 @@ function Main() {
         setCountries(data);
       } catch (err: any) {
         setError(err);
-      }
+      } 
     })();
+
   }, [inputValue]);
 
+
+  useEffect(() => {
+    (async () => {
+      let url;
+
+
+      url = "https://restcountries.com/v3.1/region/" + selectedOption;
+
+      if(selectedOption == 'all'){
+        url = "https://restcountries.com/v3.1/all"
+      }
+
+      try {
+        const { data } = await axios(url);
+        setCountries(data);
+        console.log(data)
+      } catch (err: any) {
+        setError(err);
+      } 
+    })()
+  }, [selectedOption])
+
   const filterOptions = [
-    { value: "Africa", label: "Africa" },
-    { value: "Asia", label: "Asia" },
-    { value: "Oceania", label: "Oceania" },
-    { value: "Europe", label: "Europe" },
-    { value: "Americas", label: "America" },
+    { value: "africa", label: "Africa" },
+    { value: "asia", label: "Asia" },
+    { value: "oceania", label: "Oceania" },
+    { value: "europe", label: "Europe" },
+    { value: "americas", label: "America" },
   ];
 
   return (
@@ -122,7 +145,7 @@ function Main() {
           value={selectedOption}
           onChange={(e) => setSelectedOption(e.target.value)}
         >
-          <option>Filter using Continents</option>
+          <option value="all">All Continents</option>
           {filterOptions.map((option) => {
             return (
               <option value={option.value} key={option.value}>
@@ -132,6 +155,13 @@ function Main() {
           })}
         </select>
       </SearhAndFilterContainer>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <CountryWrapper countries={countries} />
     </Container>
   );
