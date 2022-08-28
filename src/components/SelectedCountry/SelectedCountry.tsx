@@ -42,7 +42,6 @@ const MiddleSection = styled.section`
     & {
       flex-flow: column;
       justify-content: center;
-      height: 155vh;
 
     }
   }
@@ -103,16 +102,15 @@ const CountryInformation = styled.div`
 
   .borders-container {
     display: flex;
-    width: max-content;
+    width: 100%;
     gap: 1.3rem;
-    align-items: flex-start;
-    min-height: 300px;
+    align-items: center;
+    padding-bottom: 1rem;
 
     .borders {
       display: flex;
-      width: 35%;
       gap: 1rem;
-      flex-wrap: wrap;
+      flex-flow: wrap;
 
       div {
         background-color: ${({theme}) => theme.element.background};
