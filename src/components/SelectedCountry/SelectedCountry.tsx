@@ -7,11 +7,9 @@ import { motion } from "framer-motion";
 
 const Container = styled.div`
   width: 100vw;
-  min-height: 100vh;
+  min-height:90vh;
   display: flex;
   flex-flow: column;
-  /* justify-content: space-around; */
-  gap: 3rem;
 `;
 
 const TopSection = styled.section`
@@ -34,37 +32,74 @@ const BackButton = styled.button`
 `;
 const MiddleSection = styled.section`
   width: 90vw;
-  min-height: 70vh;
-  height: 60vh;
+  height: max-content;
   display: flex;
   justify-content: space-between;
   margin: auto;
   align-items: center;
-  gap: 3rem;
 
-  @media (max-width: 883px){
-    flex-flow: column;
+  @media (max-width: 1000px){
+    & {
+      flex-flow: column;
+      justify-content: center;
+    }
+
+  }
+
+  @media (max-width: 1296px) and (min-width: 1004px){
+    & {
+      gap: 2rem;
+    }
   }
 `;
 
 const Flag = styled.div`
-  width: 50%;
-  height: 100%;
+  height: 400px;
+  width: 600px;
+
+  @media (max-width: 1000px){
+    & {
+      margin-top: 4rem;
+      width: 100%;
+      height: 50%
+    }
+  }
 
   img {
     height: 100%;
     width: 100%;
     object-fit: contain;
   }
+
+
 `;
 
 const CountryInformation = styled.div`
   display: flex;
-  width: 50%;
+  width: 550px;
   height: max-content;
   flex-flow: column;
   min-height: 80%;
   justify-content: space-evenly;
+
+  
+  @media (max-width: 1000px){
+    & {
+      min-height: 40vh;
+      width: 100%;
+    }
+
+
+  }
+
+  @media (max-width: 644px){
+    .country-title {
+      text-align: center;
+  
+
+    }
+  }
+  
 
 
 
@@ -72,6 +107,8 @@ const CountryInformation = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+
+
 
     & > div:first-child {
       display: flex;
@@ -84,6 +121,24 @@ const CountryInformation = styled.div`
       flex-flow: column;
       gap: 0.4rem;
     }
+
+
+
+
+
+    @media (max-width: 644px){
+    & {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+
+    & > div {
+      gap: 1rem;
+    }
+  }
+
   }
 `;
 
@@ -122,7 +177,8 @@ const SelectedCountry = () => {
                   />
                 </Flag>
                 <CountryInformation>
-                  <h1>{country.name.official}</h1>
+                  <h1 className="country-title">{country.name.official}</h1>
+                  <br />
                   <div className="information-content">
                     <div>
                       <span>

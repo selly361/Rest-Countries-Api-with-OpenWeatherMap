@@ -155,13 +155,6 @@ function Main() {
           })}
         </select>
       </SearhAndFilterContainer>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <CountryWrapper countries={countries} />
     </Container>
   );
