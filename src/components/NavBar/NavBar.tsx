@@ -76,7 +76,7 @@ const NavBar = ({ themeToUse, setThemeToUse }: PropTypes) => {
 
   const gap = (
     <>
-      <br /> <br /> <br /> <br /> <br /> <br /> <br />
+      <br /> <br /> <br /> <br /> <br />
     </>
   );
 

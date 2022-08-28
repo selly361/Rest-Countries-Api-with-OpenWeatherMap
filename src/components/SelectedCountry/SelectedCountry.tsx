@@ -1,19 +1,23 @@
 import axios from "axios";
-import React, { useEffect, useState, Fragment, ReactNode } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
-import { motion } from "framer-motion";
+import Weather from "./Weather/Weather";
+
 
 const Container = styled.div`
-  width: 100vw;
+  width: 90vw;
   min-height: 90vh;
+  margin: auto;
   display: flex;
   flex-flow: column;
+
 `;
 
 const TopSection = styled.section`
-  padding-left: 3rem;
+
+
 `;
 
 const BackButton = styled.button`
@@ -21,21 +25,30 @@ const BackButton = styled.button`
   align-items: center;
   font-size: 2rem;
   gap: 1rem;
-  padding: 0 0.4rem;
-  border: 1px solid black;
+  padding: .2rem .7rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 0.3rem rgba(0,0,0,0.3);
   background-color: ${({ theme }) => theme.header.background};
   cursor: pointer;
 
   &:hover {
     filter: brightness(0.9);
   }
+
+  @media (max-width: 1000px){
+    & {
+      font-size: 1.5rem;
+      gap: .5rem;
+    }
+    
+  }
 `;
 const MiddleSection = styled.section`
-  width: 90vw;
+  width: 100%;
   height: max-content;
   display: flex;
   justify-content: space-between;
-  margin: auto;
   align-items: center;
 
   @media (max-width: 1000px) {
@@ -65,7 +78,6 @@ const Flag = styled.div`
 
   @media (max-width: 1000px) {
     & {
-      margin-top: 4rem;
       width: 100%;
       height: 50%;
     }
@@ -96,7 +108,7 @@ const CountryInformation = styled.div`
 
   @media (max-width: 644px) {
     .country-title {
-      text-align: center;
+      
     }
   }
 
@@ -144,7 +156,7 @@ const CountryInformation = styled.div`
       & {
         flex-direction: column;
         gap: 1rem;
-        text-align: center;
+        
       }
 
       & > div {
@@ -169,15 +181,16 @@ const SelectedCountry = () => {
     })();
   }, [id]);
 
+  const Navigate = useNavigate()
+
   return (
     <Container>
       <TopSection>
-        <Link to="/">
-          <BackButton>
+          <BackButton onClick={() => Navigate(-1)}>
             <BiArrowBack /> Back
           </BackButton>
-        </Link>
       </TopSection>
+      <br />
       <MiddleSection>
         {country.length &&
           country.map((country: any) => {
@@ -248,6 +261,7 @@ const SelectedCountry = () => {
             );
           })}
       </MiddleSection>
+      {country.length && <Weather lat={country[0].latlng[0]} long={country[0].latlng[1]}  />}
     </Container>
   );
 };
