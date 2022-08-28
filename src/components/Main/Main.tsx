@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { HiOutlineSearch } from "react-icons/hi";
 import { BsX } from "react-icons/bs";
@@ -75,6 +75,10 @@ function Main() {
   const [error, setError] = useState<number | null>(null);
   const [selectedOption, setSelectedOption] = useState("All");
 
+
+
+  
+
   useEffect(() => {
     (async () => {
       let url = "https://restcountries.com/v3.1/all";
@@ -90,32 +94,29 @@ function Main() {
         setCountries(data);
       } catch (err: any) {
         setError(err);
-      } 
+      }
     })();
-
   }, [inputValue]);
-
 
   useEffect(() => {
     (async () => {
-      let url;
-
+      let url: string;
 
       url = "https://restcountries.com/v3.1/region/" + selectedOption;
 
-      if(selectedOption == 'all'){
-        url = "https://restcountries.com/v3.1/all"
+      if (selectedOption == "all") {
+        url = "https://restcountries.com/v3.1/all";
       }
 
       try {
         const { data } = await axios(url);
         setCountries(data);
-        console.log(data)
+        console.log(data);
       } catch (err: any) {
         setError(err);
-      } 
-    })()
-  }, [selectedOption])
+      }
+    })();
+  }, [selectedOption]);
 
   const filterOptions = [
     { value: "africa", label: "Africa" },
@@ -131,6 +132,8 @@ function Main() {
         <InputContainer>
           <HiOutlineSearch size={21} className="search-icon" />
           <Input
+            autoComplete="on"
+            autoFocus
             type="text"
             placeholder="Search for a country..."
             value={inputValue}

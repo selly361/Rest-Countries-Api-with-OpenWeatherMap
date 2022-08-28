@@ -1,13 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState, Fragment } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useEffect, useState, Fragment, ReactNode } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 import { motion } from "framer-motion";
 
 const Container = styled.div`
   width: 100vw;
-  min-height:90vh;
+  min-height: 90vh;
   display: flex;
   flex-flow: column;
 `;
@@ -38,15 +38,16 @@ const MiddleSection = styled.section`
   margin: auto;
   align-items: center;
 
-  @media (max-width: 1000px){
+  @media (max-width: 1000px) {
     & {
       flex-flow: column;
       justify-content: center;
-    }
+      height: 155vh;
 
+    }
   }
 
-  @media (max-width: 1296px) and (min-width: 1004px){
+  @media (max-width: 1296px) and (min-width: 1004px) {
     & {
       gap: 2rem;
     }
@@ -57,21 +58,26 @@ const Flag = styled.div`
   height: 400px;
   width: 600px;
 
-  @media (max-width: 1000px){
-    & {
-      margin-top: 4rem;
-      width: 100%;
-      height: 50%
-    }
-  }
-
   img {
     height: 100%;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1000px) {
+    & {
+      margin-top: 4rem;
+      width: 100%;
+      height: 50%;
+    }
   }
 
 
+  @media (max-width: 644px){
+    img {
+      object-fit: contain;
+    }
+  }
 `;
 
 const CountryInformation = styled.div`
@@ -82,33 +88,47 @@ const CountryInformation = styled.div`
   min-height: 80%;
   justify-content: space-evenly;
 
-  
-  @media (max-width: 1000px){
+  @media (max-width: 1000px) {
     & {
       min-height: 40vh;
       width: 100%;
     }
-
-
   }
 
-  @media (max-width: 644px){
+  @media (max-width: 644px) {
     .country-title {
       text-align: center;
-  
+    }
+  }
+
+  .borders-container {
+    display: flex;
+    width: max-content;
+    gap: 1.3rem;
+    align-items: flex-start;
+    min-height: 300px;
+
+    .borders {
+      display: flex;
+      width: 35%;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      div {
+        background-color: ${({theme}) => theme.element.background};
+        color: ${({theme}) => theme.element.text};
+        padding: .3rem 1rem;
+        box-shadow: 0 0 0.3rem rgba(0,0,0,0.3);
+        cursor: pointer;
+      }
 
     }
   }
-  
-
-
 
   .information-content {
     width: 100%;
     display: flex;
     justify-content: space-between;
-
-
 
     & > div:first-child {
       display: flex;
@@ -122,30 +142,25 @@ const CountryInformation = styled.div`
       gap: 0.4rem;
     }
 
+    @media (max-width: 644px) {
+      & {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
 
-
-
-
-    @media (max-width: 644px){
-    & {
-      flex-direction: column;
-      gap: 1rem;
-      text-align: center;
+      & > div {
+        gap: 1rem;
+      }
     }
-
-
-    & > div {
-      gap: 1rem;
-    }
-  }
-
   }
 `;
 
 const SelectedCountry = () => {
   const { id } = useParams();
-
   const [country, setCountry] = useState<any>([]);
+
+
 
   useEffect(() => {
     (async () => {
@@ -154,7 +169,7 @@ const SelectedCountry = () => {
       );
       setCountry(data);
     })();
-  }, []);
+  }, [id]);
 
   return (
     <Container>
@@ -208,14 +223,26 @@ const SelectedCountry = () => {
                       </span>
                       <span>
                         <strong>Currency: </strong>
-                        {
-                          Object.values<any>(country.currencies)[0]
-                            .name
-                        }
+                        {Object.values<any>(country.currencies)[0].name}
                       </span>
                       <span>
-                        <strong>Languages: </strong> {Object.values(country.languages).join(", ")}
+                        <strong>Languages: </strong>{" "}
+                        {Object.values(country.languages).join(", ")}
                       </span>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="borders-container">
+                    <h3>Border Countries: </h3>
+                    <div className="borders">
+                      {country.borders ? country.borders.map((border: string) => (
+                        <Link to={`/${border}`} key={border}>
+                        <div>
+                          {border[0] +
+                            border.toLowerCase().slice(1, border.length)}
+                        </div>
+                        </Link>
+                      )) : 'No Countries'}
                     </div>
                   </div>
                 </CountryInformation>

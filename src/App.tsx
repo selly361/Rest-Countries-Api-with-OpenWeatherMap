@@ -5,7 +5,7 @@ import Main from "./components/Main/Main";
 import SelectedCountry from "./components/SelectedCountry/SelectedCountry";
 import { lightTheme, darkTheme } from "./utils/theme";
 import { GlobalStyles } from "./utils/GlobalStyles";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 const Body = styled.div`
   width: 100vw;
@@ -18,10 +18,10 @@ function App() {
   const [themeToUse, setThemeToUse] = useState<string | null | undefined>();
 
   return (
-    <Fragment>
-      <ThemeProvider theme={themeToUse === "dark" ? darkTheme : lightTheme}>
-        <GlobalStyles />
-        <Body>
+    <ThemeProvider theme={themeToUse === "dark" ? darkTheme : lightTheme}>
+      <GlobalStyles />
+      <Body>
+        <BrowserRouter>
           <Routes>
             <Route
               path="/"
@@ -33,9 +33,9 @@ function App() {
               <Route path="/:id" element={<SelectedCountry />} />
             </Route>
           </Routes>
-        </Body>
-      </ThemeProvider>
-    </Fragment>
+        </BrowserRouter>
+      </Body>
+    </ThemeProvider>
   );
 }
 

@@ -82,7 +82,7 @@ const Country = ({
   code
 }: PropTypes) => {
   return (
-    <Link to={code}>
+    <Link to={'/' + code}>
     <Container whileHover={{ scale: 0.85 }}>
       <FlagContainer>
         <img src={flag} />
