@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { BsMoonFill, BsSun } from "react-icons/bs";
 import { Outlet, Link } from "react-router-dom";
 
-
 const Header = styled.header`
   background-color: ${({ theme }) => theme.header.background};
   width: 100vw;
@@ -84,7 +83,9 @@ const NavBar = ({ themeToUse, setThemeToUse }: PropTypes) => {
     <Fragment>
       <Header>
         <Navigator>
-          <Link to='/'><h2>Where in the world?</h2></Link>
+          <Link to="/">
+            <h2>Where in the world?</h2>
+          </Link>
           {themeToUse === "dark" ? (
             <ThemeButton
               onClick={() => {
